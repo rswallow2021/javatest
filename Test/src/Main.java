@@ -3,16 +3,13 @@
 import java.io.*;
 import java.util.Arrays;
 
-/**
- * Copy one file to another using low level byte streams,
- * read and write a whole.at once.
- * @author www.codejava.net
- */
 public class Main {
  
     public static void main(String[] args) {
  
-        String inputFile = "C:\\Users\\rswal\\Downloads\\Tom_Jerry.pgm";
+       // String inputFile = "C:\\Users\\rswal\\Downloads\\Tom_Jerry.pgm";
+    	 String inputFile = "Tom_Jerry.pgm";
+         
         String outputFile = "output.xyz";
  
  
@@ -26,23 +23,52 @@ public class Main {
             byte[] allBytes = new byte[(int) fileSize];
  
             inputStream.read(allBytes);
- 
-            outputStream.write(allBytes);
-            byte lastByte;
-            for(int i =0;i<allBytes.length;i++) 
+            
+            
+            byte lastByte = allBytes[16];
+            String output = "";
+            int repeatCount = 1;
+            for(int i =3;i<allBytes.length;i++) 
             {
-            	byte curByte = allBytes[i];
-            	if(i<16) 
+            	if(i==allBytes.length/2) 
             	{
-              	  	
+            		System.out.println("50% done!");
+            	}
+            	byte curByte = allBytes[i];
+            	if(i<17) 
+            	{
+              	  	output+= ((int)curByte& 0xff) + " ";
             	}
             	else 
             	{
-            		
+            		if(curByte==lastByte) 
+            		{
+            			repeatCount++;
+            		}
+            		else 
+            		{
+            			output += " ";
+            			for(int j =0;j<10;j++) 
+            			{
+
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+                			output+= repeatCount + "x" +((int)lastByte& 0xff) ; 
+            			}
+            		}
             		
             	}
             	lastByte = curByte;
             }
+            System.out.print("Done Compressing");
+            outputStream.write(output.getBytes());
+            System.out.print("Done Writing");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
